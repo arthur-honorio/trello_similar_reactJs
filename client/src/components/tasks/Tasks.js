@@ -42,12 +42,14 @@ export default function Tasks({
     type: "TASK",
     item: {
       id: currentTaskId,
-      columnId: currentTaskColumnId,
+      taskColumnId: currentTaskColumnId,
+      // columnId: currentTaskColumnId,
       name: currentTaskName,
       content: currentTaskContent,
     },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
+      ok: monitor.didDrop(),
     }),
   })
 

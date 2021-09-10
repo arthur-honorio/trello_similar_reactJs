@@ -13,14 +13,14 @@ const Container = styled.div`
 
   border: ${props => props.over ? propsF("border", "medium") : propsF("border", "small")};
   border-color: ${props => props.over ? "green" : props.color};
-  border-radius: ${propsF("borderRadius", "small")};
-
+  border-radius: ${props => props.canDrop ? propsF("borderRadius", "medium") : propsF("borderRadius", "small")};
+  
   background: ${propsF("color", "background")};
   color: ${propsF("color", "dark")};
   
 
   h2 {
-    width: 85%;
+    width: 90%;
     margin-left: ${propsF("size", "xSmall")};
     margin-bottom: ${propsF("size", "big")};
     font-size: ${propsF("fonts", "size", "subTitle")};

@@ -43,24 +43,26 @@ export default function Columns({
   //===========================================DROP CONFIG
   //===========================================
 
-  const [{ isOver, didDrop }, dropRef] = useDrop({
+  const [{ isOver, }, dropRef] = useDrop(() => ({
     accept: "TASK",
-    hover(item, monitor) {
-      // const IdDragged = item.id
-      const ColumnIdDragged = item.columnId
-      const ColumnIdTarget = currentColumnId
 
-      if (ColumnIdDragged === ColumnIdTarget) {
-        return
+    drop: (item, monitor) => {
+      const taskColumnIdDragged = item.taskColumnId
+      const columnIdDropped = currentColumnId
+
+      if (taskColumnIdDragged === columnIdDropped) {
+        return 
+      }
+      if (taskColumnIdDragged !== columnIdDropped) {
+        updateTaskColumnId(currentColumnId, item.name, item.id, item.content)
+        getTasks()
       }
     },
-    drop: (item, monitor) =>
-      updateTaskColumnId(currentColumnId, item.name, item.id, item.content),
-    collect: (monitor) => ({
-      didDrop: !!monitor.didDrop(),
-      isOver: !!monitor.isOver(),
-    }),
-  })
+      collect: (monitor) => ({
+        isOver: !!monitor.isOver(),
+        
+      }),
+    }))
 
   //===========================================
   //===========================================//STATES
@@ -212,8 +214,8 @@ export default function Columns({
   ) {
     updateTask(itemName, columnIdNumber, itemId, itemContent)
 
+    // setTimeout(window.location.reload(), 500)
     getTasks()
-    // setTimeout(window.location.reload(), 100)
   }
 
   //===========================================
@@ -252,7 +254,6 @@ export default function Columns({
   return (
     <ColumnContext.Provider
       value={{
-        didDrop,
         handleCleanInfo,
         handleUpdateTask,
         taskIdForInfo,
@@ -261,6 +262,7 @@ export default function Columns({
         setTaskIdForEdit,
       }}
     >
+      
       <Container ref={dropRef} color={currentColumnColor} over={isOver}>
         <Close onClick={handleDeleteColumn} color={currentColumnColor} />
         <header>

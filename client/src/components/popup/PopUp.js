@@ -47,7 +47,7 @@ const PopUp = ({
             <input
               type="text"
               name="updated-task"
-              placeholder="Atualizar Atividade"
+              placeholder="Atualizar Nome da Atividade"
             />
             <textarea
               wrap="hard"

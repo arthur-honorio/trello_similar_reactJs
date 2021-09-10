@@ -15,7 +15,7 @@ import { theme } from "./styles/theme"
 
 function App() {
   return (
-    <DndProvider useDragDropManager backend={HTML5Backend}>
+    <DndProvider backend={HTML5Backend}>
       <ThemeProvider theme={theme}>
         <Router>
           <Switch>
