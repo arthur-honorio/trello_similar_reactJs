@@ -30,7 +30,6 @@ export default function Tasks({
   currentTaskName,
   currentTaskId,
   currentTaskContent,
-  currentTaskColumnId,
   currentColumnColor,
   handleDeleteTask,
 }) {
@@ -42,14 +41,13 @@ export default function Tasks({
     type: "TASK",
     item: {
       id: currentTaskId,
-      taskColumnId: currentTaskColumnId,
-      // columnId: currentTaskColumnId,
       name: currentTaskName,
       content: currentTaskContent,
     },
+    end: (item, monitor) => 
+      handleDeleteTask(currentTaskId),
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
-      ok: monitor.didDrop(),
     }),
   })
 
@@ -64,7 +62,6 @@ export default function Tasks({
   //===========================================
 
   const {
-    didDrop,
     handleCleanInfo,
     taskIdForInfo,
     setTaskIdForInfo,
@@ -111,7 +108,7 @@ export default function Tasks({
 
   return (
     <>
-      <Container2 drop={didDrop} color={currentColumnColor}>
+      <Container2 color={currentColumnColor}>
         <PopUp
           currentTaskId={currentTaskId}
           currentColumnColor={currentColumnColor}

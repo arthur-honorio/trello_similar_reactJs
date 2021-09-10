@@ -47,22 +47,12 @@ export default function Columns({
     accept: "TASK",
 
     drop: (item, monitor) => {
-      const taskColumnIdDragged = item.taskColumnId
-      const columnIdDropped = currentColumnId
-
-      if (taskColumnIdDragged === columnIdDropped) {
-        return 
-      }
-      if (taskColumnIdDragged !== columnIdDropped) {
-        updateTaskColumnId(currentColumnId, item.name, item.id, item.content)
-        getTasks()
-      }
+      postTask(item.name, currentColumnId, item.content)
     },
-      collect: (monitor) => ({
-        isOver: !!monitor.isOver(),
-        
-      }),
-    }))
+    collect: (monitor) => ({
+      isOver: !!monitor.isOver(),
+    }),
+  }))
 
   //===========================================
   //===========================================//STATES
@@ -124,9 +114,9 @@ export default function Columns({
   //===========================================//POST
   //===========================================
 
-  async function postTask(taskName, columnIdNumber) {
+  async function postTask(taskName, columnIdNumber, content = "") {
     await axios
-      .post(url, { name: `${taskName}`, columnId: `${columnIdNumber}` })
+      .post(url, { name: `${taskName}`, columnId: `${columnIdNumber}`, content: `${content || ""}` })
       .catch(console.log)
 
     getTasks()
@@ -203,22 +193,6 @@ export default function Columns({
   }
 
   //===========================================
-  //===========================================//PUT CHANGE COLUMN ON DRAG
-  //===========================================
-
-  async function updateTaskColumnId(
-    columnIdNumber,
-    itemName,
-    itemId,
-    itemContent
-  ) {
-    updateTask(itemName, columnIdNumber, itemId, itemContent)
-
-    // setTimeout(window.location.reload(), 500)
-    getTasks()
-  }
-
-  //===========================================
   //===========================================//PUT CLEAN INFO FROM TASK
   //===========================================
 
@@ -262,7 +236,6 @@ export default function Columns({
         setTaskIdForEdit,
       }}
     >
-      
       <Container ref={dropRef} color={currentColumnColor} over={isOver}>
         <Close onClick={handleDeleteColumn} color={currentColumnColor} />
         <header>
