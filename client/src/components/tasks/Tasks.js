@@ -30,6 +30,7 @@ export default function Tasks({
   currentTaskName,
   currentTaskId,
   currentTaskContent,
+  currentTaskColumnId,
   currentColumnColor,
   handleDeleteTask,
 }) {
@@ -37,17 +38,20 @@ export default function Tasks({
   //===========================================//DRAGGING CONFIG
   //===========================================
 
-  const [{ isDragging }, dragRef] = useDrag({
+  const [{ isDragging, }, dragRef] = useDrag({
     type: "TASK",
     item: {
       id: currentTaskId,
       name: currentTaskName,
       content: currentTaskContent,
+      columnId: currentTaskColumnId,
     },
-    end: (item, monitor) => 
-      handleDeleteTask(currentTaskId),
+    end: (item, monitor) => {
+      monitor.getDropResult() &&
+      handleDeleteTask(currentTaskId)
+    },
     collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
+      isDragging: !!monitor.isDragging(),
     }),
   })
 

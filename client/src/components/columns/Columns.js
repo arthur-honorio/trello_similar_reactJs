@@ -47,6 +47,7 @@ export default function Columns({
     accept: "TASK",
 
     drop: (item, monitor) => {
+      item.columnId!==item.currentTaskColumndId &&
       postTask(item.name, currentColumnId, item.content)
     },
     collect: (monitor) => ({
